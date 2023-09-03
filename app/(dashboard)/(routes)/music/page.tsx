@@ -23,10 +23,13 @@ import { Loader } from '@/components/Loader';
 import Empty from '@/components/Empty';
 import Heading from '@/components/Heading';
 import { Music } from 'lucide-react';
+import { useProModal } from '@/hooks/use-promodal';
 
 const MusicPage = () => {
     const [music, setMusic] = useState<string>();
     const router = useRouter();
+    const proModal = useProModal();
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -43,7 +46,9 @@ const MusicPage = () => {
             setMusic(response.data.audio);
             form.reset();
         } catch (error: any) {
-            console.log(error);
+            if (error?.response?.status === 403) {
+                proModal.onOpen()
+            }
         } finally {
             router.refresh();
         }

@@ -18,10 +18,12 @@ import Empty from '@/components/Empty'
 import { Loader } from '@/components/Loader'
 import { UserAvatar } from '@/components/UserAvatar'
 import { BotAvatar } from '@/components/BotAvatar'
+import { useProModal } from '@/hooks/use-promodal'
 
 const ConversationPage = () => {
     const [messages, setMessages] = useState<OpenAI.Chat.ChatCompletionMessage[]>([])
     const router = useRouter()
+    const proModal = useProModal();
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -42,7 +44,9 @@ const ConversationPage = () => {
             setMessages((current) => [...current, userMessage, response.data])
             form.reset()
         } catch (error:any) {
-            console.log(error)
+            if (error?.response?.status === 403) {
+                proModal.onOpen()
+            }
         } finally {
             router.refresh()
         }

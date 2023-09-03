@@ -16,10 +16,13 @@ import { Loader } from '@/components/Loader';
 import Empty from '@/components/Empty';
 import Heading from '@/components/Heading';
 import { VideoIcon } from 'lucide-react';
+import { useProModal } from '@/hooks/use-promodal';
 
 const VideoPage = () => {
     const [video, setVideo] = useState<string>();
     const router = useRouter();
+    const proModal = useProModal();
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -36,7 +39,9 @@ const VideoPage = () => {
             setVideo(response.data[0]);
             form.reset();
         } catch (error: any) {
-            console.log(error);
+            if (error?.response?.status === 403) {
+                proModal.onOpen()
+            }
         } finally {
             router.refresh();
         }

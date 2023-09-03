@@ -6,12 +6,14 @@ import { Button } from './ui/button'
 import { Zap } from 'lucide-react'
 import { MAX_FREE_COUNTS } from '@/constants'
 import { Progress } from './ui/progress'
+import { useProModal } from '@/hooks/use-promodal'
 interface FreeCounterProps {
     apiLimitCount: number
 }
 
 const FreeCounter: FC<FreeCounterProps> = ({ apiLimitCount = 0 }) => {
     const [mounted, setMounted] = useState(false);
+    const proModal = useProModal();
     useEffect(() => {
         setMounted(true);
     }, []);
