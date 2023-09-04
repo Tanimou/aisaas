@@ -3,6 +3,7 @@ import { auth } from "@clerk/nextjs"
 import { NextResponse } from "next/server"
 import OpenAI from "openai"
 import { increaseApiLimit, checkApiLimit } from '@/lib/apilimit'
+import { checkSubscription } from "@/lib/subscription"
 
 
 const openai = new OpenAI({
@@ -29,7 +30,8 @@ export async function POST(req: Request) {
         }
 
         const freeTrial = await checkApiLimit()
-        if (!freeTrial) { 
+        const isPro = await checkSubscription()
+        if (!freeTrial && !isPro) { 
             return new NextResponse("Free trial limit reached", { status: 403 })
         }
 
@@ -38,7 +40,9 @@ export async function POST(req: Request) {
             messages
         })
 
-        await increaseApiLimit()
+        if(!isPro) {
+            await increaseApiLimit()
+        }
 
         return NextResponse.json(response.choices[0].message)
     } catch (error) {

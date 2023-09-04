@@ -11,6 +11,7 @@ import FreeCounter from './FreeCounter'
 
 interface SidebarProps {
     apiLimitCount:number
+    isPro:boolean
 }
 
 const montserrat = Montserrat({weight:"600",subsets:["latin"]})
@@ -58,7 +59,7 @@ const routes = [
         href: '/settings',
     },
 ]
-const Sidebar: FC<SidebarProps> = ({ apiLimitCount }) => {
+const Sidebar: FC<SidebarProps> = ({ apiLimitCount,isPro = false }) => {
     const pathname=usePathname()
     return (
 
@@ -87,7 +88,7 @@ const Sidebar: FC<SidebarProps> = ({ apiLimitCount }) => {
                     ))}
                 </div>
             </div>
-            <FreeCounter apiLimitCount={apiLimitCount} />
+            <FreeCounter apiLimitCount={apiLimitCount} isPro={isPro} />
         </div>
     )
 }

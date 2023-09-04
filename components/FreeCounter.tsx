@@ -1,17 +1,18 @@
 "use client"
 
-import { FC, useEffect, useState } from 'react'
-import { Card, CardContent } from './ui/card'
-import { Button } from './ui/button'
-import { Zap } from 'lucide-react'
 import { MAX_FREE_COUNTS } from '@/constants'
-import { Progress } from './ui/progress'
 import { useProModal } from '@/hooks/use-promodal'
+import { Zap } from 'lucide-react'
+import { FC, useEffect, useState } from 'react'
+import { Button } from './ui/button'
+import { Card, CardContent } from './ui/card'
+import { Progress } from './ui/progress'
 interface FreeCounterProps {
     apiLimitCount: number
+    isPro: boolean
 }
 
-const FreeCounter: FC<FreeCounterProps> = ({ apiLimitCount = 0 }) => {
+const FreeCounter: FC<FreeCounterProps> = ({ apiLimitCount = 0, isPro = false }) => {
     const [mounted, setMounted] = useState(false);
     const proModal = useProModal();
     useEffect(() => {
@@ -19,6 +20,10 @@ const FreeCounter: FC<FreeCounterProps> = ({ apiLimitCount = 0 }) => {
     }, []);
 
     if (!mounted) {
+        return null;
+    }
+
+    if (isPro) {
         return null;
     }
     return (
