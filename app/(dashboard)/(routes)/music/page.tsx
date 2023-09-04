@@ -24,6 +24,7 @@ import Empty from '@/components/Empty';
 import Heading from '@/components/Heading';
 import { Music } from 'lucide-react';
 import { useProModal } from '@/hooks/use-promodal';
+import toast from 'react-hot-toast';
 
 const MusicPage = () => {
     const [music, setMusic] = useState<string>();
@@ -48,6 +49,8 @@ const MusicPage = () => {
         } catch (error: any) {
             if (error?.response?.status === 403) {
                 proModal.onOpen()
+            } else {
+                toast.error("Something went wrong.")
             }
         } finally {
             router.refresh();

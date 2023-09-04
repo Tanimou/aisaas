@@ -17,6 +17,7 @@ import Empty from '@/components/Empty';
 import Heading from '@/components/Heading';
 import { VideoIcon } from 'lucide-react';
 import { useProModal } from '@/hooks/use-promodal';
+import toast from 'react-hot-toast';
 
 const VideoPage = () => {
     const [video, setVideo] = useState<string>();
@@ -41,6 +42,8 @@ const VideoPage = () => {
         } catch (error: any) {
             if (error?.response?.status === 403) {
                 proModal.onOpen()
+            } else {
+                toast.error("Something went wrong.")
             }
         } finally {
             router.refresh();
