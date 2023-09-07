@@ -33,7 +33,7 @@ const tools = [
     },
     {
         label: "Discover AI Music",
-        href: "/musique",
+        href: "/music",
         bgColor: "bg-emerald-100",
         color: "text-emerald-700",
         icon: Music
